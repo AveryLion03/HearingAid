@@ -1,6 +1,11 @@
 #include <nrf.h>
 #include "Adafruit_TinyUSB.h"
 
+// Define 32 bit output
+#ifndef I2S_CONFIG_SWIDTH_SWIDTH_32BIT
+  #define I2S_CONFIG_SWIDTH_SWIDTH_32BIT (2UL)
+#endif
+
 // I2S pin definitions (adjust as needed)
 #define I2S_WS_PIN    NRF_GPIO_PIN_MAP(1, 4)   // LRCK (Word Select)
 #define I2S_SCK_PIN   NRF_GPIO_PIN_MAP(0, 9)   // Serial Clock (SCK)
@@ -16,10 +21,14 @@ __ALIGN(4) static int32_t dma_buffer_b[DMA_BUF_SIZE];   // Speaker output buffer
 #define ORANGE_LED NRF_GPIO_PIN_MAP(0, 15)
 
 // High-pass filter parameters
-// These coefficients are determined based on your desired cutoff frequency and sample rate.
-// (This example uses arbitrary values for illustration.)
-float alpha = 0.9f;
-float beta  = 0.9f;
+// Filter parameters for cutoff frequency of 300Hz and sample rate of 62500Hz
+const float f_c = 300.0;        // Cutoff frequency in Hz
+const float f_s = 62500.0;      // Sample frequency in Hz
+const float T = 1.0 / f_s;      // Sampling period
+const float RC = 1.0 / (2.0 * 3.14159265 * f_c); // Time constant
+const float alpha = RC / (RC + T);  // Filter coefficient, approx 0.9707
+long previousInput = 0;
+long previousOutput = 0;
 
 // Variables to store previous state for filtering
 int32_t prev_input = 0;
@@ -40,10 +49,10 @@ void setup() {
   NRF_I2S->CONFIG.TXEN  = I2S_CONFIG_TXEN_TXEN_Enabled << I2S_CONFIG_TXEN_TXEN_Pos;   // Enable TX (Speaker)
   NRF_I2S->CONFIG.RXEN  = I2S_CONFIG_RXEN_RXEN_Enabled << I2S_CONFIG_RXEN_RXEN_Pos;   // Enable RX (Mic)
   NRF_I2S->CONFIG.MCKEN = I2S_CONFIG_MCKEN_MCKEN_Enabled << I2S_CONFIG_MCKEN_MCKEN_Pos; // Enable Master Clock
-  NRF_I2S->CONFIG.MCKFREQ = I2S_CONFIG_MCKFREQ_MCKFREQ_32MDIV8 << I2S_CONFIG_MCKFREQ_MCKFREQ_Pos; // MCK = 4 MHz
+  NRF_I2S->CONFIG.MCKFREQ = I2S_CONFIG_MCKFREQ_MCKFREQ_32MDIV11 << I2S_CONFIG_MCKFREQ_MCKFREQ_Pos; // MCK = 2.91 MHz
   NRF_I2S->CONFIG.RATIO = I2S_CONFIG_RATIO_RATIO_64X << I2S_CONFIG_RATIO_RATIO_Pos;  // Sample Ratio = 64X
   NRF_I2S->CONFIG.MODE  = I2S_CONFIG_MODE_MODE_Master << I2S_CONFIG_MODE_MODE_Pos;   // Master Mode
-  NRF_I2S->CONFIG.SWIDTH = I2S_CONFIG_SWIDTH_SWIDTH_24BIT << I2S_CONFIG_SWIDTH_SWIDTH_Pos; // For 24-bit
+  NRF_I2S->CONFIG.SWIDTH = I2S_CONFIG_SWIDTH_SWIDTH_32BIT << I2S_CONFIG_SWIDTH_SWIDTH_Pos; // For 32-bit
   NRF_I2S->CONFIG.ALIGN  = I2S_CONFIG_ALIGN_ALIGN_Left << I2S_CONFIG_ALIGN_ALIGN_Pos; // Left-aligned
   NRF_I2S->CONFIG.FORMAT = I2S_CONFIG_FORMAT_FORMAT_I2S << I2S_CONFIG_FORMAT_FORMAT_Pos; // I2S format
 
@@ -76,20 +85,22 @@ void loop() {
     // Process each sample using a high-pass filter to reduce low-frequency wind noise.
     for (int i = 0; i < DMA_BUF_SIZE; i++) {
       int32_t current_input = dma_buffer_a[i];
+      if(current_input <= 20000 && current_input >= -20000) current_input = 0;
       
       // Simple first-order high-pass filter:
       //   y[n] = x[n] - alpha*x[n-1] + beta*y[n-1]
-      int32_t filtered = current_input - (int32_t)(alpha * prev_input) + (int32_t)(beta * prev_output);
+      long filtered = alpha * (prev_output + current_input - prev_output);
       
       // Update state variables for next iteration:
       prev_input = current_input;
       prev_output = filtered;
-      
-      dma_buffer_b[i] = filtered;
+      dma_buffer_b[i] = filtered * 4; //amplify input signal by 4
 
       // Optionally, print every 8th filtered sample to the Serial Plotter for debugging.
       if (i % 8 == 0) {
-        Serial.println(filtered);
+        Serial.print(dma_buffer_a[i]);
+        Serial.print(",");
+        Serial.println(dma_buffer_b[i]);
       }
     }
 
