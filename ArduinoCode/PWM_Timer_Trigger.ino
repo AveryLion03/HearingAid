@@ -31,5 +31,5 @@ void setup(){
   NRF_PWM1->SEQ[0].REFRESH = 1;
   NRF_PWM1->SEQ[0].ENDDELAY = 1;
 
-
+  NRF_PWM1->TASKS_SEQSTART[0] = 1;
 }
