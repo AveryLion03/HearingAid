@@ -1,3 +1,11 @@
+/*
+Developed by Avery Atchley for Plan II Thesis
+Hearing Aid development using:
+- INMP441
+- Adafruit Bone transducer
+- Max98357a I2S amplifier
+*/
+
 #include <Arduino.h>
 #include <ESP_I2S.h>
 
