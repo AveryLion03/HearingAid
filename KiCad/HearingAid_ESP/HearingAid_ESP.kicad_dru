@@ -22,7 +22,7 @@
 (rule "Track width, outer layer (1oz copper)"
 	(layer outer)
 	(condition "A.Type == 'track'")
-	(constraint track_width (min 0.1mm))
+	(constraint track_width (min 0.127mm))
 )
 
 (rule "Track spacing, outer layer (1oz copper)"
@@ -130,3 +130,4 @@
 	(condition "A.isPlated() && B.isPlated() && A.Net != B.Net")
 	(constraint clearance (min 0.127mm))
 )
+
