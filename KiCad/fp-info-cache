@@ -1,4 +1,4 @@
-23694188186771709
+23697666732350227
 450404015514
 450404015514
 <B>WS-SLSU</B><BR> Mini Slide Switch, Same Side Connection Side Push 6.7x2.7 mm
@@ -57854,6 +57854,13 @@ XDCR_IM69D120V01XTSA1
 0
 5
 5
+INMP441ACEZ-R7
+MIC_INMP441ACEZ-R7
+
+
+0
+9
+9
 Inductor_SMD
 L_6.3x6.3_H3
 Choke, SMD, 6.3x6.3mm 3mm height
@@ -66120,6 +66127,13 @@ Mounting Hole 8.4mm, M8
 mounting hole 8.4mm m8
 0
 9
+1
+MountingHole
+Mounting_Pad_Rectangular
+Mounting Hole 2.2mm, M2, DIN965
+mounting hole 2.2mm m2 din965
+0
+1
 1
 Mounting_Wuerth
 Mounting_Wuerth_WA-SMRA-D3.3mm_L7mm_7466300R_Horizontal
