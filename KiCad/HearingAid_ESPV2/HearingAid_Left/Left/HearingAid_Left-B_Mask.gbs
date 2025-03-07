@@ -1,0 +1,30 @@
+%TF.GenerationSoftware,KiCad,Pcbnew,8.0.3*%
+%TF.CreationDate,2025-02-27T13:02:28-06:00*%
+%TF.ProjectId,HearingAid_Left,48656172-696e-4674-9169-645f4c656674,rev?*%
+%TF.SameCoordinates,Original*%
+%TF.FileFunction,Soldermask,Bot*%
+%TF.FilePolarity,Negative*%
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW 8.0.3) date 2025-02-27 13:02:28*
+%MOMM*%
+%LPD*%
+G01*
+G04 APERTURE LIST*
+%ADD10O,2.004000X1.104000*%
+%ADD11R,1.270000X5.080000*%
+%ADD12C,17.800000*%
+G04 APERTURE END LIST*
+D10*
+%TO.C,J1*%
+X112570000Y-40300000D03*
+X112570000Y-31660000D03*
+%TD*%
+D11*
+%TO.C,BT2*%
+X112915000Y-35440000D03*
+X90945000Y-35440000D03*
+D12*
+X101930000Y-35440000D03*
+%TD*%
+M02*
