@@ -1,0 +1,18 @@
+Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+BT1,Battery_Cell,BatteryHolder_Keystone_3034_1x20mm_CustomCourtyard,122.1,-70.28363,180,bottom
+BOOT,SW_Push,SW_B3U-1000P,118.05,-64.13,0,top
+C3,4.7uF,C_0402_1005Metric_Pad0.74x0.62mm_HandSolder,128.48,-64.28,0,top
+C4,100nF,C_0402_1005Metric_Pad0.74x0.62mm_HandSolder,128.4825,-63.2,0,top
+C5,100nF,C_0402_1005Metric_Pad0.74x0.62mm_HandSolder,125.79,-62.25,0,top
+C8,1uF,C_0402_1005Metric_Pad0.74x0.62mm_HandSolder,128.4925,-65.35,0,top
+D3,RED_LED,LED_0402_1005Metric,130.575,-73.77,0,top
+D4,GREEN_LED,LED_0402_1005Metric,120.285,-75.53,180,top
+R11,470,R_0402_1005Metric,130.57,-72.62,0,top
+R12,470,R_0402_1005Metric,120.28,-74.41,0,top
+R13,100k,R_0402_1005Metric,114.28,-68.01,180,top
+R14,10k,R_0402_1005Metric_Pad0.72x0.64mm_HandSolder,121.77,-62.26,0,top
+R15,10k,R_0402_1005Metric_Pad0.72x0.64mm_HandSolder,119.1925,-62.11,180,top
+RST,SW_Push,SW_B3U-1000P,123.97,-64.3,180,top
+S1,4.50404E+11,4.50404E+11,124.35,-77.93,180,top
+U5,MAX98357A,TQFN-16-1EP_3x3mm_P0.5mm_EP1.23x1.23mm,114.5325,-70.68,-90,top
+U8,ESP32-S3,QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm,125.44,-70.03,0,top
